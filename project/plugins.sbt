@@ -1,0 +1,1 @@
+resolvers += Resolver.url("TdIvy", url("https://artifactory.tritondigital.com/artifactory/ivy"))(Resolver.ivyStylePatterns)

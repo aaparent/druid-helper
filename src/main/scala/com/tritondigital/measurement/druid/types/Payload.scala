@@ -1,3 +1,3 @@
 package com.tritondigital.measurement.druid.types
 
-//case class Payload(payload: Either[IngestionSpec, QuerySpec])
+case class Payload(payload: Either[IngestionSpec, QuerySpec])

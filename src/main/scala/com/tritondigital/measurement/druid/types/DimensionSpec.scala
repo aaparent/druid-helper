@@ -1,7 +1,7 @@
 package com.tritondigital.measurement.druid.types
 
-//case class DimensionSpec(dimensions: List[Dimension] = List.empty, dimensionExclusions: List[String] = List.empty,
-//                         spatialDimensions: List[String] = List.empty, includeAllDimensions: Option[Boolean])
+case class DimensionSpec(dimensions: List[Dimension] = List.empty, dimensionExclusions: List[String] = List.empty,
+                         spatialDimensions: List[String] = List.empty, includeAllDimensions: Option[Boolean])
 
 // if dimensions and spatialDimensions are both null or empty arrays, Druid will treat all non-timestamp,
 // non-metric columns that do not appear in dimensionExclusions as String-typed dimension columns.

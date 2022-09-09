@@ -1,56 +1,41 @@
 package com.tritondigital.measurement.druid.types
-import org.json4s.jackson.JsonMethods.{pretty, render}
-import org.json4s.JsonDSL._
 
+case class Aggregators(`type`: Aggregator, name: String, fieldName: Option[String], timeColumn: Option[String], maxStringBytes: Option[Int], fnAggregate: Option[String], fnCombine: Option[String], fnReset: Option[String]) extends DruidJson {
 
+  def toJson: String = super.toJson(this)
 
-case class Aggregators(`type`: AggregatorType, name: String, fieldName: Option[String], timeColumn: Option[String], maxStringBytes: Option[Int], fnAggregate: Option[String], fnCombine: Option[String], fnReset: Option[String]) extends DruidJson {
-//   def toJson: String = pretty(render(super.toJson(
-//    "type" -> `type`.name,
-//    "name" -> name,
-//    "fieldName" -> fieldName.getOrElse(null)
-//  )))
+  def repr: String = super.repr(this)
 
-  def toJson: String = pretty(render(
-    ("type" -> `type`.name) ~
-      ("name" -> name) ~
-      ("fieldName" -> fieldName.map(_.toString))
-  ))
-
-
-  override def repr: String =
-    s"""
-      |val `type` = AggregatorType.${`type`.name}
-      |val name = $name
-      |val fieldName = ${fieldName.map("\"" + _.toString + "\"").orElse(None)}
-      |""".stripMargin
+//    s"""
+//       |val `type` = ${reprEnum(`type`, `type`.underlying)}
+//       |val name = \"$name\"
+//       |val fieldName = ${reprOptional(fieldName)}
+//       |""".stripMargin
 }
-
-case class AggregatorType(name: String)
-
-object AggregatorType {
-  val count = AggregatorType("count")
-  val longSum = AggregatorType("longSum")
-  val doubleSum = AggregatorType("doubleSum")
-  val FloatSum = AggregatorType("floatSum")
-  val doubleMin = AggregatorType("doubleMin")
-  val doubleMax = AggregatorType("doubleMax")
-  val floatMin = AggregatorType("floatMin")
-  val floatMax = AggregatorType("floatMax")
-  val longMin = AggregatorType("longMin")
-  val longMax = AggregatorType("longMax")
-  val doubleMean = AggregatorType("doubleMean")
-  val doubleFirst = AggregatorType("doubleFirst")
-  val doubleLast = AggregatorType("doubleLast")
-  val floatFirst = AggregatorType("floatFirst")
-  val floatLast = AggregatorType("floatLast")
-  val longFirst = AggregatorType("longFirst")
-  val longLast = AggregatorType("longLast")
-  val stringFirst = AggregatorType("stringFirst")
-  val stringLast = AggregatorType("stringLast")
-  val doubleAny = AggregatorType("doubleAny")
-  val floatAny = AggregatorType("floatAny")
-  val longAny = AggregatorType("longAny")
-  val stringAny = AggregatorType("stringAny")
-  val javascript = AggregatorType("javascript")
+private[types] class Aggregator(val underlying: String) extends AnyVal
+object Aggregator {
+  val count = new Aggregator("count")
+  val longSum = new Aggregator("longSum")
+  val doubleSum = new Aggregator("doubleSum")
+  val FloatSum = new Aggregator("floatSum")
+  val doubleMin = new Aggregator("doubleMin")
+  val doubleMax = new Aggregator("doubleMax")
+  val floatMin = new Aggregator("floatMin")
+  val floatMax = new Aggregator("floatMax")
+  val longMin = new Aggregator("longMin")
+  val longMax = new Aggregator("longMax")
+  val doubleMean = new Aggregator("doubleMean")
+  val doubleFirst = new Aggregator("doubleFirst")
+  val doubleLast = new Aggregator("doubleLast")
+  val floatFirst = new Aggregator("floatFirst")
+  val floatLast = new Aggregator("floatLast")
+  val longFirst = new Aggregator("longFirst")
+  val longLast = new Aggregator("longLast")
+  val stringFirst = new Aggregator("stringFirst")
+  val stringLast = new Aggregator("stringLast")
+  val doubleAny = new Aggregator("doubleAny")
+  val floatAny = new Aggregator("floatAny")
+  val longAny = new Aggregator("longAny")
+  val stringAny = new Aggregator("stringAny")
+  val javascript = new Aggregator("javascript")
 }

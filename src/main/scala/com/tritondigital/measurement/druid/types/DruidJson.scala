@@ -1,22 +1,26 @@
 package com.tritondigital.measurement.druid.types
 
-import org.json4s.{JDecimal, JDouble, JField, JInt, JObject, JString, JValue}
-
+import org.json4s.NoTypeHints
+import org.json4s.jackson.Serialization
 
 trait DruidJson {
-  def toJson(nameValues: (String, String)*): JValue = {
-    JObject(nameValues.toList.foldLeft(List[JField]())(
-      (list, z) => {
-        toJField(z._1, z._2) :: list
-      })
-    )
+  implicit val formats = Serialization.formats(NoTypeHints)
+
+  def toJson(impl: AnyRef): String = {
+    Serialization.write(impl)
   }
 
-  def repr: String
-  def toJField(name: String, value: String) = JField(name, JString(value))
-  def toJField(name: String, value: Int) = JField(name, JInt(value))
-  def toJField(name: String, value: Double) = JField(name, JDouble(value))
-  def toJField(name: String, value: BigDecimal) = JField(name, JDecimal(value))
-  def toJField(name: String, value: JValue) = JField(name, value)
+  def repr(impl: AnyRef): String = {
+    impl.getClass.getDeclaredFields.map(f => {
+      s"""${f.getName}: ${f.getType.getSimpleName}"""
+    }).mkString("\n")
+  }
 
+  def reprOptional[T](field: Option[T]): String = {
+    s"""${field.map("\"" + _.toString + "\"").orElse(None)}"""
+  }
+
+  def reprEnum[T](_type: T, _value: T): String = {
+    s"""${_type.getClass.getSimpleName}.${_value}"""
+  }
 }
